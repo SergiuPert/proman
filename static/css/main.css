@@ -2,7 +2,7 @@
     background-color: green;
 }
 
-.board {
+.board-container {
     background-color: red;
     color: white;
 }
@@ -47,6 +47,14 @@
 .navar-left-button:hover,
 .navar-right-button:hover{
     transform: rotate(180deg);
+}
+
+.board {
+    display: flex;
+}
+
+.status_div {
+    background-color: white;
 }
 
 

@@ -15,4 +15,12 @@ export let domManager = {
             console.error("could not find such html element: " + parentIdentifier);
         }
     },
+    clearContent(parentIdentifier) {
+        const parent = document.querySelector(parentIdentifier);
+        if (parent) {
+            parent.innerHTML = "";
+        } else {
+            console.error("could not find such html element: " + parentIdentifier);
+        }
+    },
 };
