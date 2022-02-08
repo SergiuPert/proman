@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, session
 from dotenv import load_dotenv
 
+import cryptography
 import data_manager
 from util import json_response
 import mimetypes
@@ -10,12 +11,33 @@ mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv()
 
+
 @app.route("/")
 def index():
     """
     This is a one-pager which shows all the boards and cards
     """
     return render_template('index.html')
+
+
+@app.route("/api/user", methods=['GET', 'POST', 'PUT'])
+@json_response
+def user():
+    if request.method == 'POST':
+        json_var = request.json
+        user = data_manager.get_user(json_var['username'])
+        if user:
+            if cryptography.verify_password(json_var['password'], user['password']):
+                session.update({"username": user["username"]})
+                return {'attempt': 'Connected'}
+            return {'attempt': 'Incorrect password'}
+        return {'attempt': 'Incorrect username'}
+    if request.method == 'GET':
+        return {'username': session['username'] if 'username' in session else ''}
+    if request.method == 'PUT':
+        pass
+
+
 
 
 @app.route("/api/boards")

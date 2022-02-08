@@ -49,5 +49,38 @@
     transform: rotate(180deg);
 }
 
+/*login page*/
+#root{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(128, 128, 128, 0.63);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
 
+#login-div{
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+}
 
+#login-div input,
+#login-div button{
+    margin: 7px;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: #000000;
+    color: #ece8e8;
+    text-align: center;
+}
+
+#login-div input::placeholder{
+    color: rgba(15, 115, 90, 0.91);
+}
