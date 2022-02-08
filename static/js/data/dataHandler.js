@@ -26,21 +26,54 @@ export let dataHandler = {
 };
 
 async function apiGet(url) {
-    let response = await fetch(url, {
-        method: "GET",
-    });
+    let response = await fetch(url);
     if (response.ok) {
-        return await response.json();
+        let data = await response.json();
+        return data;
     }
 }
 
 async function apiPost(url, payload) {
+    let response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+    if (response.ok) {
+        let data = await response.json();
+        // console.log(data)
+        return data;
+    }
 }
 
-async function apiDelete(url) {
+async function apiDelete(url, payload) {
+    let response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+    if (response.ok) {
+        let data = await response.json();
+        return data;
+    }
 }
 
-async function apiPut(url) {
+async function apiPut(url, payload) {
+    let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+    if (response.ok) {
+        let data = await response.json();
+        return data;
+    }
 }
 
 async function apiPatch(url) {
