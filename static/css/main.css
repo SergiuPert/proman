@@ -2,6 +2,11 @@
     background-color: green;
 }
 
+.board {
+    background-color: red;
+    color: white;
+}
+
 /*navigation bar*/
 
 .navbar-div{
@@ -43,4 +48,6 @@
 .navar-right-button:hover{
     transform: rotate(180deg);
 }
+
+
 

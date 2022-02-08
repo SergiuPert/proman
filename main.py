@@ -1,5 +1,7 @@
 from flask import Flask, render_template, url_for
 from dotenv import load_dotenv
+
+import data_manager
 from util import json_response
 import mimetypes
 import queries
@@ -19,10 +21,8 @@ def index():
 @app.route("/api/boards")
 @json_response
 def get_boards():
-    """
-    All the boards
-    """
-    return queries.get_boards()
+    boards = data_manager.get_boards()
+    return boards
 
 
 @app.route("/api/boards/<int:board_id>/cards/")
