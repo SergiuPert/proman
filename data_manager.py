@@ -16,7 +16,7 @@ def get_cards_by_board_id(cursor, board_id):
     query = """
         SELECT *
         FROM cards
-        WHERE cards.board_id == %(b_id)s
+        WHERE board_id = %(board_id)s
     ;"""
     cursor.execute(query)
 
@@ -30,3 +30,6 @@ def get_user(cursor, username):
     ;"""
     cursor.execute(query, {'username': username})
     return cursor.fetchone()
+
+    cursor.execute(query, {"board_id": board_id})
+    return cursor.fetchall()

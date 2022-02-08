@@ -54,7 +54,8 @@ def get_cards_for_board(board_id: int):
     All cards that belongs to a board
     :param board_id: id of the parent board
     """
-    return queries.get_cards_for_board(board_id)
+    cards = data_manager.get_cards_by_board_id(board_id)
+    return cards
 
 
 def main():

@@ -9,10 +9,14 @@ export const builderFunctions = {
 };
 
 export function htmlFactory(template) {
-    if (htmlTemplates.hasOwnProperty(template)) {
-        return builderFunctions[template];
-    }
+    switch(template) {
+        case htmlTemplates.board:
+            return boardBuilder
+        case htmlTemplates.card:
+            return cardBuilder
 
+
+    }
     console.error("Undefined template: " + template);
 
     return () => {
