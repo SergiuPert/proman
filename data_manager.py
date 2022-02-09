@@ -34,3 +34,12 @@ def get_user(cursor, username):
 
     cursor.execute(query, {"board_id": board_id})
     return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def insert_user(cursor, user):
+    query = """ 
+    INSERT INTO users(username, password) 
+    VALUES (%(username)s, %(password)s)
+    ;"""
+    cursor.execute(query, user)

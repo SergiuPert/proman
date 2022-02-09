@@ -9,6 +9,7 @@ import queries
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
+app.secret_key = b'_1#23x"F4Qdu\n\xec]/'
 load_dotenv()
 
 
@@ -20,12 +21,13 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/api/user", methods=['GET', 'POST', 'PUT'])
+@app.route("/api/user", methods=['GET', 'POST', 'PUT', 'DELETE'])
 @json_response
 def user():
     if request.method == 'POST':
         json_var = request.json
         user = data_manager.get_user(json_var['username'])
+        print(user)
         if user:
             if cryptography.verify_password(json_var['password'], user['password']):
                 session.update({"username": user["username"]})
@@ -35,7 +37,16 @@ def user():
     if request.method == 'GET':
         return {'username': session['username'] if 'username' in session else ''}
     if request.method == 'PUT':
-        pass
+        json_var = request.json
+        if not data_manager.get_user(json_var['username']):
+            data_manager.insert_user({
+                'username': json_var['username'],
+                'password': cryptography.hash_password(json_var['password'])
+            })
+            return {'attempt': 'Success!'}
+        return {'attempt': 'Username already exists!'}
+    if request.method == 'DELETE':
+        session.pop('username')
 
 
 
