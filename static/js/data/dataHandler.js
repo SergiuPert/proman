@@ -62,7 +62,7 @@ async function apiDelete(url, payload) {
     }
 }
 
-async function apiPut(url, payload) {
+export async function apiPut(url, payload) {
     let response = await fetch(url, {
         method: "PUT",
         headers: {

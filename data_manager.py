@@ -18,5 +18,18 @@ def get_cards_by_board_id(cursor, board_id):
         FROM cards
         WHERE board_id = %(board_id)s
     ;"""
+    cursor.execute(query)
+
+
+@database_connection.connection_handler
+def get_user(cursor, username):
+    query = """
+    SELECT username, password
+    FROM users
+    WHERE username = %(username)s
+    ;"""
+    cursor.execute(query, {'username': username})
+    return cursor.fetchone()
+
     cursor.execute(query, {"board_id": board_id})
     return cursor.fetchall()
