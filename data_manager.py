@@ -43,3 +43,12 @@ def insert_user(cursor, user):
     VALUES (%(username)s, %(password)s)
     ;"""
     cursor.execute(query, user)
+
+
+@database_connection.connection_handler
+def create_board(cursor):
+    query = """
+        INSERT INTO boards(title)
+        VALUES ('New Board')
+    ;"""
+    cursor.execute(query)

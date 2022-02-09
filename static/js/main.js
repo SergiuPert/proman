@@ -1,5 +1,5 @@
 import {boardsManager} from "./controller/boardsManager.js";
-import {apiPut, apiDelete, apiPost, apiGet}  from "./data/dataHandler.js"
+import {apiPut, apiDelete, apiPost, apiGet, dataHandler} from "./data/dataHandler.js"
 
 function showLoginMessageError(message){
         let loginDiv = document.getElementById('login-div');
@@ -179,7 +179,7 @@ const game = {
 
 function update_ui() {
     ui.cards = document.querySelectorAll(".card");
-    ui.slots = document.querySelectorAll(".board-column");
+    ui.slots = document.querySelectorAll(".board-column-content");
     console.log(ui.cards)
     console.log(ui.slots)
     initDragEvents();
@@ -233,15 +233,22 @@ function handleDrop(e) {
     const dropzone = e.currentTarget;
     console.log(dropzone)
     console.log("Drop of", dropzone);
-    if (dom.hasClass(dropzone, "board-column")) {
+    if (dom.hasClass(dropzone, "board-column-content")) {
         dropzone.appendChild(game.dragged);
     }
+}
+
+
+function init_buttons() {
+    let create_board_button = document.getElementById("create-board");
+    create_board_button.addEventListener("click", dataHandler.createNewBoard);
 }
 
 
 function init() {
     boardsManager.loadBoards();
     setTimeout(update_ui, 1000);
+    init_buttons();
 }
 init();
 updateUserButtons()
