@@ -18,7 +18,8 @@ def get_cards_by_board_id(cursor, board_id):
         FROM cards
         WHERE board_id = %(board_id)s
     ;"""
-    cursor.execute(query)
+    cursor.execute(query, {'board_id': board_id})
+    return cursor.fetchall()
 
 
 @database_connection.connection_handler
