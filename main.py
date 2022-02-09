@@ -24,7 +24,7 @@ def index():
 @app.route("/api/user", methods=['GET', 'POST', 'PUT', 'DELETE'])
 @json_response
 def user():
-    if request.method == 'POST':
+    if request.method == 'POST': # LOGIN USER
         json_var = request.json
         user = data_manager.get_user(json_var['username'])
         print(user)
@@ -34,8 +34,10 @@ def user():
                 return {'attempt': 'Connected'}
             return {'attempt': 'Incorrect password'}
         return {'attempt': 'Incorrect username'}
+
     if request.method == 'GET':
         return {'username': session['username'] if 'username' in session else ''}
+
     if request.method == 'PUT':
         json_var = request.json
         if not data_manager.get_user(json_var['username']):
@@ -45,17 +47,43 @@ def user():
             })
             return {'attempt': 'Success!'}
         return {'attempt': 'Username already exists!'}
+
     if request.method == 'DELETE':
         session.pop('username')
 
 
-
-
-@app.route("/api/boards")
+@app.route("/api/boards", methods=['GET', 'POST', 'PUT', 'DELETE'])
 @json_response
-def get_boards():
-    boards = data_manager.get_boards()
-    return boards
+def boards():
+    if request.method == 'GET':
+        boards_var = data_manager.get_boards()
+        return boards_var
+
+    if request.method == 'POST':
+        return
+
+    if request.method == 'PUT':
+        return
+
+    if request.method == 'DELETE':
+        return
+
+
+@app.route("/api/statuses", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@json_response
+def statuses():
+    if request.method == 'GET':
+        statuses_var = ''
+        return statuses_var
+
+    if request.method == 'POST':
+        return
+
+    if request.method == 'PUT':
+        return
+
+    if request.method == 'DELETE':
+        return
 
 
 @app.route("/api/boards/<int:board_id>/cards/")

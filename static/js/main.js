@@ -231,6 +231,7 @@ function handleDragLeave(e) {
 function handleDrop(e) {
     e.preventDefault();
     const dropzone = e.currentTarget;
+    console.log(dropzone)
     console.log("Drop of", dropzone);
     if (dom.hasClass(dropzone, "board-column")) {
         dropzone.appendChild(game.dragged);
