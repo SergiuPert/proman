@@ -35,19 +35,19 @@ function boardBuilder(board) {
             </div>
             <div class="board-columns">
                 <div class="board-column">
-                    <div class="board-column-title"></div>
+                    <div class="board-column-title"><h2>New</h2></div>
                     <div class="board-column-content" status-new-id=${board.id}></div>
                 </div>
                 <div class="board-column" >
-                    <div class="board-column-title"></div>
+                    <div class="board-column-title"><h2>In Progress</h2></div>
                     <div class="board-column-content" status-progress-id=${board.id}></div>
                 </div>
                 <div class="board-column">
-                    <div class="board-column-title"></div>
+                    <div class="board-column-title"><h2>Testing</h2></div>
                     <div class="board-column-content" status-testing-id=${board.id}></div>
                 </div>
                 <div class="board-column">
-                    <div class="board-column-title"></div>
+                    <div class="board-column-title"><h2>Done</h2></div>
                     <div class="board-column-content" status-done-id=${board.id}></div>
                 </div>
             </div>
