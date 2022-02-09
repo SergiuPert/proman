@@ -1,41 +1,167 @@
 import {boardsManager} from "./controller/boardsManager.js";
-import {apiPut}  from "./data/dataHandler.js"
+import {apiPut, apiDelete, apiPost, apiGet}  from "./data/dataHandler.js"
 function init() {
     // boardsManager.loadBoards();
 }
+function showLoginMessageError(message){
+        let loginDiv = document.getElementById('login-div');
+        let messageH = document.getElementById('message');
+        if(messageH){
+            loginDiv.removeChild(messageH)
+        }
+        loginDiv.innerHTML = message + loginDiv.innerHTML
+        let buttonLogin = document.getElementById('button-login-form');
+        buttonLogin.addEventListener('click', loginFunction);
+        let buttonCancel =  document.getElementById('cancel-button');
+        buttonCancel.addEventListener('click', cancelFunction);
+}
+function showRegisterMessageError(message){
+     let registrationDiv = document.getElementById('registration-div');
+     let messageH = document.getElementById('message');
+     if(messageH){
+         registrationDiv.removeChild(messageH)
+     }
+     registrationDiv.innerHTML = message + registrationDiv.innerHTML;
+     let buttonRegister = document.getElementById('registration-button');
+     buttonRegister.addEventListener('click', registerFunction)
+     let buttonCancel =  document.getElementById('cancel-button');
+     buttonCancel.addEventListener('click', cancelFunction);
+}
 
-function login(){
-    let divRoot = document.getElementById('root');
-    divRoot.innerHTML = ` <div id="login-div">
-                          <input placeholder="username" type="text" name="username" id="username" class="login-input">
-                          <input placeholder="password" type="password" name="password" id="password" class="login-input">
-                          <button id="login-button"> LOGin </button>
-                          </div>`;
-     divRoot.style.visibility = 'visible'
+function updateUserButtons(){
     let buttonLogin = document.getElementById('button-login');
-    buttonLogin.addEventListener('click', async ev => {
-            let message;
-            await apiPut('/api/user', {
-                'username': document.getElementById('username').innerText,
-                'password': document.getElementById('password').innerText
-            }).then(result => {
-                message=result.attempt;
+    let buttonRegister = document.getElementById('button-register');
+    if(buttonLogin.innerText === 'LOGIN'){
+        buttonLogin.removeEventListener('click', login);
+        buttonRegister.removeEventListener('click', registration)}
+    else{
+        buttonLogin.removeEventListener('click', logout);
+        buttonRegister.removeAttribute('disabled');
+    }
+    apiGet('/api/user').then(result=>{
+        if(result.username !== ''){
+            buttonLogin.innerText = 'LOGOUT';
+            buttonLogin.addEventListener('click', logout);
+            buttonRegister.innerText = result.username;
+            buttonRegister.setAttribute('disabled', 'disabled');
+        }
+        else{
+            buttonLogin.innerText = 'LOGIN';
+            buttonLogin.addEventListener('click', login);
+            buttonRegister.innerText = 'REGISTER';
+            buttonRegister.addEventListener('click', registration);
+        }
+    })
+}
+
+async function loginFunction() {
+    let message;
+    console.log({
+        'username': document.getElementById('username').value,
+        'password': document.getElementById('password').value
+    })
+    await apiPost('/api/user', {
+        'username': document.getElementById('username').value,
+        'password': document.getElementById('password').value
+    }).then(result => {
+        message = result.attempt;
+        console.log(result)
+    });
+    console.log(message);
+    if (message === 'Connected') {
+        let divRoot = document.getElementById('root-over');
+        divRoot.innerHTML = '';
+        divRoot.style.visibility = 'hidden';
+        updateUserButtons();
+    } else if (message === 'Incorrect password') {
+        let messageNode = `<h1 id="message" style="color: red"> ${message}</h1>`
+        showLoginMessageError(messageNode)
+    } else if (message === 'Incorrect username') {
+        let messageNode = `<h1 id="message" style="color: red"> ${message}</h1>`
+        showLoginMessageError(messageNode)
+    }
+}
+
+function cancelFunction(){
+    let divRoot = document.getElementById('root-over')
+    divRoot.style.visibility= 'hidden';
+    divRoot.innerHTML = '';
+
+    }
+
+async function registerFunction(ev) {
+    ev.preventDefault();
+        let message = "Passwords does not match!";
+        if (document.getElementById('password').value === document.getElementById('password-confirm').value) {
+            await apiPut(
+                '/api/user',
+                {
+                    'username': document.getElementById('username').value,
+                    'password': document.getElementById('password').value
+                }).then(result =>{
+                    message = result.attempt;
+                    console.log(result)
             });
-            if(message === 'Connected'){
-                divRoot.innerHTML = '';
-                divRoot.style.visibility = 'hidden'
+            if(message === 'Success!'){
+                 let registrationDiv = document.getElementById('registration-div');
+                 registrationDiv.innerHTML = `<h1 style="color: greenyellow"> ${message}</h1>`+ registrationDiv.innerHTML;
+                 login();
             }
-            else if(message === 'Incorrect password' ){
-                let loginDiv = document.getElementById('login-div')
-                loginDiv.innerHTML = `<h1 style="color: red"> ${message}</h1>`+ loginDiv.innerHTML
-            }
-            else if(message === 'Incorrect username' ){
-                let loginDiv = document.getElementById('login-div')
-                loginDiv.innerHTML = `<h1 style="color: red"> ${message}</h1>`+ loginDiv.innerHTML
+            else if (message === 'Username already exists!'){
+                 let messageNode = `<h1 id="message" style="color: orange"> ${message}</h1>`;
+                 showRegisterMessageError(messageNode)
             }
         }
-    )
+        else {
+            let messageNode = `<h1 id="message" style="color: red"> ${message}</h1>`;
+            showRegisterMessageError(messageNode);
+
+        }
+
+
+    }
+
+function login(){
+    let divRoot = document.getElementById('root-over');
+    divRoot.innerHTML = ` <div id="login-div">
+                              <input autocomplete="false"  placeholder="username" type="text" name="username" id="username" class="login-input">
+                              <input autocomplete="false" placeholder="password" type="password" name="password" id="password" class="login-input">
+                              <div id="buttons-div">
+                                   <button id="button-login-form"> LOGIN </button>
+                                   <button id="cancel-button"> CANCEL </button>
+                              </div>
+                          </div>`;
+    divRoot.style.visibility = 'visible'
+    let buttonLogin = document.getElementById('button-login-form');
+    buttonLogin.addEventListener('click', loginFunction);
+    let buttonCancel =  document.getElementById('cancel-button');
+    buttonCancel.addEventListener('click', cancelFunction);
 }
+
+function registration(){
+    let divRoot = document.getElementById('root-over');
+    divRoot.innerHTML = ` 
+            <div id="registration-div">
+                <input autocomplete="off" placeholder="username" type="text" name="username" id="username" class="registration-input">
+                <input autocomplete="off" placeholder="password" type="password" name="password" id="password" class="registration-input">
+                <input autocomplete="off" placeholder="password-confirm" type="password" name="password-confirm" id="password-confirm" class="login-input">
+                <div id="buttons-div">
+                   <button type="submit" id="registration-button"> REGISTER </button>
+                   <button id="cancel-button"> CANCEL </button>
+                </div>
+            </div>`;
+    divRoot.style.visibility = 'visible';
+    let buttonRegister = document.getElementById('registration-button');
+    buttonRegister.addEventListener('click', registerFunction)
+    let buttonCancel =  document.getElementById('cancel-button');
+    buttonCancel.addEventListener('click', cancelFunction);
+}
+
+function logout(){
+    apiDelete('/api/user', {}).then(r => {updateUserButtons()} );
+}
+
 init();
+updateUserButtons()
 
 

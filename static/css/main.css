@@ -50,7 +50,7 @@
 }
 
 /*login page*/
-#root{
+#root-over{
     position: fixed;
     top: 0;
     left: 0;
@@ -63,17 +63,19 @@
     justify-content: center
 }
 
-#login-div{
+#login-div,
+#registration-div{
+    background-color: white;
+    border-radius: 20px;
     display: flex;
     padding: 30px;
     flex-direction: column;
-    background-color: white;
-    border-radius: 20px;
 }
 
 #login-div input,
-#login-div button{
-    margin: 7px;
+#login-div button,
+#registration-div input,
+#registration-div button{
     font-size: 20px;
     border-radius: 10px;
     background-color: #000000;
@@ -81,6 +83,24 @@
     text-align: center;
 }
 
-#login-div input::placeholder{
+#login-div input::placeholder,
+#registration-div input::placeholder{
     color: rgba(15, 115, 90, 0.91);
+}
+
+#registration-div #buttons-div,
+#login-div #buttons-div{
+    justify-content: space-around;
+    display: flex;
+    margin: 7px;
+
+}
+
+#registration-div input,
+#login-div input{
+    border: solid 1px ;
+}
+
+.hidden{
+    display: none;
 }
