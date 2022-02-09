@@ -9,18 +9,23 @@ export let boardsManager = {
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            console.log(content);
             domManager.addChild("#root", content);
-            domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
-            );
+            // domManager.addEventListener(
+            //     `.toggle-board-button[data-board-id="${board.id}"]`,
+            //     "click",
+            //     showHideButtonHandler
+            // );
+            showHideButtonHandler(board.id)
         }
     },
 };
 
-function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
+// function showHideButtonHandler(clickEvent) {
+//     const boardId = clickEvent.target.dataset.boardId;
+//     console.log(boardId)
+//     cardsManager.loadCards(boardId);
+// }
+
+function showHideButtonHandler(boardId) {
     cardsManager.loadCards(boardId);
 }

@@ -5,20 +5,23 @@ import {domManager} from "../view/domManager.js";
 export let cardsManager = {
     loadCards: async function (boardId) {
         const cards = await dataHandler.getCardsByBoardId(boardId);
-        console.log(cards);
+        domManager.clearContent(`.board-column-content[status-new-id="${boardId}"]`, "New");
+        domManager.clearContent(`.board-column-content[status-progress-id="${boardId}"]`, "In Progress");
+        domManager.clearContent(`.board-column-content[status-testing-id="${boardId}"]`, "Testing");
+        domManager.clearContent(`.board-column-content[status-done-id="${boardId}"]`, "Done");
         for (let card of cards) {
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
             // domManager.addChild(`.board[data-board-id="${boardId}"]`, content);
             let parent;
             if (card.status_id === 1) {
-                parent = `.status-div[status-new-id="${boardId}"]`
+                parent = `.board-column-content[status-new-id="${boardId}"]`
             } else if (card.status_id === 2) {
-                parent = `.status-div[status-progress-id="${boardId}"]`
+                parent = `.board-column-content[status-progress-id="${boardId}"]`
             } else if (card.status_id === 3) {
-                parent = `.status-div[status-testing-id="${boardId}"]`
+                parent = `.board-column-content[status-testing-id="${boardId}"]`
             } else if (card.status_id === 4) {
-                parent = `.status-div[status-done-id="${boardId}"]`
+                parent = `.board-column-content[status-done-id="${boardId}"]`
             }
             domManager.addChild(parent, content);
             domManager.addEventListener(

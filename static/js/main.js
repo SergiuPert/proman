@@ -6,84 +6,141 @@ function init() {
 
 init();
 
+//dragging
+const dom = {
+    isEmpty: function (el) {
+        return el.children.length === 0;
+    },
+    hasClass: function (el, cls) {
+        return el.classList.contains(cls);
+    },
+};
+
+const ui = {
+    slots: null,
+    cards: null,
+};
+
+const game = {
+    dragged: null,
+};
+
+// function initDragAndDrop() {
+//     initElements();
+//     shuffleCards();
+//     initDragEvents();
+// }
+
+function initElements() {
+    ui.cards = document.querySelectorAll(".card");
+    ui.slots = document.querySelectorAll(".board-column");
+    ui.cards.forEach(function (card) {
+        card.setAttribute("draggable", true);
+    });
+    console.log(ui)
+}
+    initElements();
+
+
+
+console.log(game)
+//
 
 //
-// async function apiGet(url) {
-//     let response = await fetch(url);
-//     if (response.ok) {
-//         let data = await response.json();
-//         return data;
-//     }
-// }
-//
-// async function apiPost(url, payload) {
-//     let response = await fetch(url, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(payload),
+// function initDragEvents() {
+//     ui.cards.forEach(function (card) {
+//         initDraggable(card);
 //     });
-//     if (response.ok) {
-//         let data = await response.json();
-//         // console.log(data)
-//         return data;
-//     }
-// }
 //
-// async function apiDelete(url, payload) {
-//     let response = await fetch(url, {
-//         method: "DELETE",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(payload),
+//     ui.slots.forEach(function (slot) {
+//         initDropzone(slot);
 //     });
-//     if (response.ok) {
-//         let data = await response.json();
-//         return data;
+//     initDropzone(ui.mixedCardsContainer);
+// }
+//
+// function initDraggable(draggable) {
+//     draggable.setAttribute("draggable", true);
+//     draggable.addEventListener("dragstart", handleDragStart);
+//     draggable.addEventListener("dragend", handleDragEnd);
+// }
+//
+// function initDropzone(dropzone) {
+//     dropzone.addEventListener("dragenter", handleDragEnter);
+//     dropzone.addEventListener("dragover", handleDragOver);
+//     dropzone.addEventListener("dragleave", handleDragLeave);
+//     dropzone.addEventListener("drop", handleDrop);
+// }
+//
+// function handleDragStart(e) {
+//     game.dragged = e.currentTarget;
+//     console.log("Drag start of", game.dragged);
+// }
+//
+// function handleDragEnd() {
+//     console.log("Drag end of", game.dragged);
+//     game.dragged = null;
+// }
+//
+// function handleDragOver(e) {
+//     e.preventDefault();
+// }
+//
+// function handleDragEnter(e) {
+//     if (game.dragged.classList.contains(e.target.classList[1])) {
+//         e.target.classList.add("card-slot-hover");
+//     } else if (e.target.classList.contains("mixed-cards")) {
+//         e.target.classList.add("card-slot-hover");
+//     } else {
+//         e.target.classList.add("card-slot-hover-wrong");
+//     }
+//
+//     console.log("Drag enter of", e.currentTarget);
+// }
+//
+// function handleDragLeave(e) {
+//     e.target.classList.remove("card-slot-hover");
+//     e.target.classList.remove("card-slot-hover-wrong");
+//     console.log("Drag leave of", e.currentTarget);
+// }
+//
+// function has_won() {
+//     let score = 0;
+//     for (let index = 0; index < ui.slots.length; index++) {
+//         try {
+//             if (ui.slots[index].firstChild.classList.contains(ui.slots[index].classList[2])) {
+//                 // console.log(ui.slots[index].classList[2]);
+//                 // console.log(ui.slots[index].child.classList[2]);
+//                 score++;
+//             }
+//         } catch (err) {
+//             return false;
+//         }
+//     }
+//     if (score === 8) {
+//         return true;
 //     }
 // }
 //
-// async function apiPut(url, payload) {
-//     let response = await fetch(url, {
-//         method: "PUT",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(payload),
-//     });
-//     if (response.ok) {
-//         let data = await response.json();
-//         return data;
+//
+//
+// function handleDrop(e) {
+//     e.preventDefault();
+//     const dropzone = e.currentTarget;
+//     console.log("Drop of", dropzone);
+//     e.target.classList.remove("card-slot-hover");
+//     e.target.classList.remove("card-slot-hover-wrong");
+//     if (dom.hasClass(dropzone, "card-slot") && game.dragged.classList.contains(dropzone.classList[1]) ) {
+//         if (dom.isEmpty(dropzone)) {
+//             dropzone.appendChild(game.dragged);
+//         }
+//     } else if (dropzone.classList.contains("mixed-cards")) {
+//         dropzone.appendChild(game.dragged)
+//     }
+//     if (has_won()) {
+//         document.getElementById("win").style.opacity = "1";
+//     } else {
+//         document.getElementById("win").style.opacity = "0";
 //     }
 // }
 //
-// async function get_boards() {
-//     let boards = await apiGet("/api/boards");
-//     // console.log(boards);
-//     let boardsDiv = document.getElementById("boards_div");
-//     for(let index=0; index < boards.length; index++) {
-//         console.log(boards[index])
-//         boardsDiv.innerHTML += `
-//         <div class="board">
-//             <h1>${boards[index].title}</h1>
-//
-//         </div>
-//     `;
-//     }
-// }
-//
-//
-// async function get_cards() {
-//
-// }
-//
-//
-//
-// async function init_page() {
-//     await get_boards();
-// }
-//
-//
-// await init_page();
+// initDragAndDrop();
