@@ -60,6 +60,7 @@ def boards():
         return boards_var
 
     if request.method == 'POST':
+        data_manager.create_board()
         return
 
     if request.method == 'PUT':
