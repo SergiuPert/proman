@@ -1,8 +1,6 @@
 import {boardsManager} from "./controller/boardsManager.js";
 import {apiPut, apiDelete, apiPost, apiGet}  from "./data/dataHandler.js"
-function init() {
-    // boardsManager.loadBoards();
-}
+
 function showLoginMessageError(message){
         let loginDiv = document.getElementById('login-div');
         let messageH = document.getElementById('message');

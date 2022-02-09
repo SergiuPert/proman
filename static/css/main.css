@@ -1,3 +1,7 @@
+#title{
+    margin-top: 120px;
+}
+
 #boards {
     background-color: green;
 }
@@ -19,7 +23,7 @@
     font-size: 25px;
 }
 
-.navbar{
+.navbar-custom{
     /*display: flex;*/
     align-items: center;
     width: 100%;
