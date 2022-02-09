@@ -179,7 +179,7 @@ const game = {
 
 function update_ui() {
     ui.cards = document.querySelectorAll(".card");
-    ui.slots = document.querySelectorAll(".board-column-content");
+    ui.slots = document.querySelectorAll(".board-column");
     console.log(ui.cards)
     console.log(ui.slots)
     initDragEvents();
@@ -233,8 +233,8 @@ function handleDrop(e) {
     const dropzone = e.currentTarget;
     console.log(dropzone)
     console.log("Drop of", dropzone);
-    if (dom.hasClass(dropzone, "board-column-content")) {
-        dropzone.appendChild(game.dragged);
+    if (dom.hasClass(dropzone, "board-column")) {
+        dropzone.children[1].appendChild(game.dragged);
     }
 }
 
