@@ -180,8 +180,6 @@ const game = {
 function update_ui() {
     ui.cards = document.querySelectorAll(".card");
     ui.slots = document.querySelectorAll(".board-column");
-    console.log(ui.cards)
-    console.log(ui.slots)
     initDragEvents();
 }
 
@@ -242,13 +240,17 @@ function handleDrop(e) {
 function init_buttons() {
     let create_board_button = document.getElementById("create-board");
     create_board_button.addEventListener("click", dataHandler.createNewBoard);
+    let create_card_buttons = document.querySelectorAll(".board-add");
+    for (let button of create_card_buttons) {
+        button.addEventListener("click", evt => dataHandler.createNewCard(button.id))
+    }
 }
 
 
 function init() {
     boardsManager.loadBoards();
     setTimeout(update_ui, 1000);
-    init_buttons();
+    setTimeout(init_buttons, 1000);
 }
 init();
 updateUserButtons()

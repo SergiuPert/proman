@@ -87,15 +87,18 @@ def statuses():
         return
 
 
-@app.route("/api/boards/<int:board_id>/cards/")
+@app.route("/api/boards/<int:board_id>/cards/", methods=['GET', 'POST', 'PUT', 'DELETE'])
 @json_response
 def get_cards_for_board(board_id: int):
     """
     All cards that belongs to a board
     :param board_id: id of the parent board
     """
-    cards = data_manager.get_cards_by_board_id(board_id)
-    return cards
+    if request.method == 'GET':
+        cards = data_manager.get_cards_by_board_id(board_id)
+        return cards
+    if request.method == 'POST':
+        data_manager.create_card(board_id)
 
 
 def main():
