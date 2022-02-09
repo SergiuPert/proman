@@ -52,3 +52,16 @@ def create_board(cursor):
         VALUES ('New Board')
     ;"""
     cursor.execute(query)
+
+
+@database_connection.connection_handler
+def update_card(cursor, card):
+    query = """
+        UPDATE cards
+        SET status_id=(SELECT id FROM statuses WHERE title=lower(%(status_title)s) LIMIT 1),
+        title = %(title)s
+        WHERE id=%(card_id)s
+            ;"""
+    cursor.execute(query, card)
+
+

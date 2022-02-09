@@ -231,11 +231,18 @@ function handleDragLeave(e) {
 function handleDrop(e) {
     e.preventDefault();
     const dropzone = e.currentTarget;
-    console.log(dropzone)
-    console.log("Drop of", dropzone);
     if (dom.hasClass(dropzone, "board-column")) {
+
+        apiPut('/api/cards', {
+            'status_title': dropzone.firstElementChild.innerText,
+            'title': game.dragged.lastElementChild.innerText,
+            'card_id': game.dragged.getAttribute('data-card-id')
+        }).then(e => {
+            console.log(game.dragged, 'Card updated')
+        });
         dropzone.children[1].appendChild(game.dragged);
     }
+
 }
 
 
