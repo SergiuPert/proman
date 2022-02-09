@@ -69,6 +69,7 @@ section.board{
 
 .board-column-content{
     min-height: 49px;
+    height: calc(100% - 53 - 60);
 }
 
 .board-column-content:empty{

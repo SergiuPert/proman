@@ -88,6 +88,26 @@ def statuses():
 
 
 @app.route("/api/boards/<int:board_id>/cards/", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route("/api/cards", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@json_response
+def cards():
+    if request.method == 'GET':
+        statuses_var = ''
+        return statuses_var
+
+    if request.method == 'POST':
+        return
+
+    if request.method == 'PUT':
+        json_var = request.json
+        print(json_var)
+        data_manager.update_card(json_var)
+
+    if request.method == 'DELETE':
+        return
+
+
+@app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):
     """

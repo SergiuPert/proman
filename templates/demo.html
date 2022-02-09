@@ -15,15 +15,17 @@
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 </head>
 <body>
-    <div id="root">
-        <div id="registration-div">
-            <input placeholder="username" type="text" name="username" id="username" class="registration-input">
-            <input placeholder="password" type="password" name="password" id="password" class="registration-input">
-            <input placeholder="password-confirm" type="password-confirm" name="password-confirm" id="password-confirm" class="login-input">
-           <div id="buttons-div">
-               <button id="registration-button"> REGISTER </button>
-               <button> CANCEL </button>
-           </div>
+    <div class="board-column">
+        <div class="board-column-title">In Progress</div> 1
+        <div class="board-column-content" status-progress-id="1">
+            <div class="card" data-card-id="3" draggable="true"> 2
+                <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                <div class="card-title">in progress card</div> 3
+            </div>
+            <div class="card" data-card-id="1" draggable="true">
+                <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                <div class="card-title">new card 1</div>
+            </div>
         </div>
     </div>
 </body>

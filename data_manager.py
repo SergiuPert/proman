@@ -61,3 +61,16 @@ def create_card(cursor, board_id):
         VALUES (%(board_id)s, 1, 'New card', 1)
     ;"""
     cursor.execute(query, {'board_id': board_id})
+
+
+@database_connection.connection_handler
+def update_card(cursor, card):
+    query = """
+        UPDATE cards
+        SET status_id=(SELECT id FROM statuses WHERE title=lower(%(status_title)s) LIMIT 1),
+        title = %(title)s
+        WHERE id=%(card_id)s
+            ;"""
+    cursor.execute(query, card)
+
+
