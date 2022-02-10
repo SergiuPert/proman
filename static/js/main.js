@@ -13,6 +13,7 @@ function showLoginMessageError(message){
         let buttonCancel =  document.getElementById('cancel-button');
         buttonCancel.addEventListener('click', cancelFunction);
 }
+
 function showRegisterMessageError(message){
      let registrationDiv = document.getElementById('registration-div');
      let messageH = document.getElementById('message');
@@ -25,8 +26,17 @@ function showRegisterMessageError(message){
      let buttonCancel =  document.getElementById('cancel-button');
      buttonCancel.addEventListener('click', cancelFunction);
 }
-function changeStatusTitle(status) {
-    apiPut("")
+
+async function changeStatusTitle(status, board_id) {
+    await apiPut(`/api/statuses/${board_id}`, status);
+}
+
+async function changeBoardsTitle(boards) {
+    await apiPut('/api/boards', boards);
+}
+
+async function changeCardsTitle(cards) {
+    await apiPut('/api/cards', cards);
 }
 
 function updateUserButtons(){
@@ -165,16 +175,42 @@ function logout(){
 function addEventForStatusTitleChange() {
     let column_titles = document.getElementsByClassName("board-column-title");
     for (let column_title of column_titles){
-        column_title.addEventListener('onchange',evt => {
+        column_title.addEventListener('keydown',evt => {
             changeStatusTitle({
-                "status_id": evt.currentTarget.getAttribute('status_id'),
+                "status_id": evt.currentTarget.getAttribute('status-id'),
                 "title": evt.currentTarget.innerText
-            })
+            }, evt.currentTarget.getAttribute('board-id')).then(r => {console.log("updated")})
         })
     }
 
 }
 
+function addEventForBoardTitleChange(){
+    let boards_title = document.getElementsByClassName('board-title');
+    for(let board_title of boards_title){
+        board_title.addEventListener('keydown', event =>{
+            changeBoardsTitle({
+                "board_id": event.currentTarget.getAttribute('board-id'),
+                "title": event.currentTarget.innerText
+            }).then(r => {})
+        })
+    }
+}
+
+function addEventForCardTitleChange(){
+    let cards_title = document.getElementsByClassName('card-title');
+    for(let card_title of cards_title){
+        console.log(card_title);
+        card_title.addEventListener('keydown', event =>{
+            console.log('update card started')
+            changeCardsTitle({
+                "card_id": event.currentTarget.getAttribute('data-card-id'),
+                "title": event.currentTarget.innerText
+            }).then(r => {console.log('card updated')});
+        });
+
+    }
+}
 
 //dragging
 const dom = {
@@ -258,7 +294,6 @@ function handleDrop(e) {
 
 }
 
-
 function init_buttons() {
     let create_board_button = document.getElementById("create-board");
     create_board_button.addEventListener("click", dataHandler.createNewBoard);
@@ -268,13 +303,15 @@ function init_buttons() {
     }
 }
 
-
  async function init() {
      document.getElementById('root').innerHTML = ''
      await boardsManager.loadBoards();
-     update_ui()
+     update_ui();
      init_buttons();
      updateUserButtons();
+     addEventForStatusTitleChange();
+     addEventForBoardTitleChange();
+     addEventForCardTitleChange();
      // let rootDiv = document.getElementById('root');
      // let current_content;
      // boardsManager.loadBoards().then(result=>{
@@ -288,7 +325,6 @@ function init_buttons() {
      // setInterval()
 
  }
-
 
 function cur_content() {
     let cur_content = document.getElementById('root').innerHTML;

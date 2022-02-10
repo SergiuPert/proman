@@ -64,7 +64,8 @@ def boards():
         return
 
     if request.method == 'PUT':
-        return
+        json_var = request.json
+        data_manager.update_board_name(json_var)
 
     if request.method == 'DELETE':
         return
@@ -81,7 +82,8 @@ def statuses(board_id: int):
         return
 
     if request.method == 'PUT':
-        return
+        json_var = request.json
+        data_manager.update_status_name(json_var)
 
     if request.method == 'DELETE':
         return
@@ -99,8 +101,10 @@ def cards():
 
     if request.method == 'PUT':
         json_var = request.json
-        print(json_var)
-        data_manager.update_card(json_var)
+        if "status_id" in json_var:
+            data_manager.update_card(json_var)
+        else:
+            data_manager.update_card_name(json_var)
 
     if request.method == 'DELETE':
         return

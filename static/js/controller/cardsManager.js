@@ -18,11 +18,11 @@ export let cardsManager = {
             parent = `.board-column-content[status-id="${card.status_id}"]`
 
             domManager.addChild(parent, content);
-            domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
-                "click",
-                deleteButtonHandler
-            );
+            // domManager.addEventListener(
+            //     `.card[data-card-id="${card.id}"]`,
+            //     "click",
+            //     deleteButtonHandler
+            // );
         }
     },
 };

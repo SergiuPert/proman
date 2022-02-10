@@ -30,7 +30,7 @@ export function htmlFactory(template) {
 function boardBuilder(board, columns) {
     return `
         <section class="board" data-board-id=${board.id}>
-            <div class="board-header"><span class="board-title">${board.title}</span>
+            <div class="board-header"><span class="board-title" board-id="${board.id}" contenteditable="true">${board.title}</span>
                 <button class="board-add" id="${board.id}" >Add Card</button>
                 <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
 <!--                <button class="toggle-board-button" data-board-id="${board.id}${board.id}">Show Cards</button>-->
@@ -44,7 +44,7 @@ function cardBuilder(card) {
     return `
             <div class="card" data-card-id="${card.id}">
                 <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                <div class="card-title">${card.title}</div>
+                <div class="card-title" data-card-id="${card.id}" contenteditable="true">${card.title}</div>
             </div>
     `;
 }
@@ -55,7 +55,7 @@ function board_columns_builder(board, statuses) {
         console.log('status id ',status.id)
         columns += `
                 <div class="board-column">
-                    <div class="board-column-title" contenteditable="true">${status.title}</div>
+                    <div class="board-column-title" status-id=${status.id} board-id="${board.id}" contenteditable="true">${status.title}</div>
                     <div class="board-column-content" status-id=${status.id}></div>
                 </div>
             `;

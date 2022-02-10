@@ -6,6 +6,7 @@ def get_boards(cursor):
     query = """
         SELECT *
         FROM boards
+        ORDER BY id
     ;"""
     cursor.execute(query)
     return cursor.fetchall()
@@ -94,3 +95,33 @@ def get_statuses_by_board_id(cursor, board_id):
     ;"""
     cursor.execute(query, {"board_id": board_id})
     return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def update_status_name(cursor, status):
+    query = """
+            UPDATE board_statuses
+            SET title = %(title)s
+            WHERE id = %(status_id)s
+            ;"""
+    cursor.execute(query, status)
+
+
+@database_connection.connection_handler
+def update_board_name(cursor, board):
+    query = """
+            UPDATE boards
+            SET title= %(title)s
+            WHERE id= %(board_id)s
+            ;"""
+    cursor.execute(query, board)
+
+
+@database_connection.connection_handler
+def update_card_name(cursor, card):
+    query = """
+            UPDATE cards
+            SET title= %(title)s
+            WHERE id=%(card_id)s
+            ;"""
+    cursor.execute(query, card)
