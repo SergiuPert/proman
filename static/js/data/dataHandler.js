@@ -18,11 +18,31 @@ export let dataHandler = {
         // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: async function (boardTitle) {
+        document.getElementById("root").innerHTML += `<p>.<p>`;
         return await apiPost("/api/boards");
     },
     createNewCard: async function (boardId) {
+        document.getElementById("root").innerHTML += `<p>.<p>`;
         return await apiPost(`/api/boards/${boardId}/cards/`)
     },
+    createNewStatus: async function (boardId) {
+        document.getElementById("root").innerHTML += `<p>.<p>`;
+        return apiPost(`/api/statuses/${boardId}`);
+    },
+    deleteCard: async function (cardId) {
+        document.getElementById("root").innerHTML += `<p>.<p>`;
+        return apiDelete(`/api/cards/${cardId}`)
+    },
+    deleteStatus: async function (statusId) {
+        document.getElementById("root").innerHTML += `<p>.<p>`;
+        console.log("deleting " + statusId)
+        return apiDelete(`/api/statuses/${statusId}`,{"status_id":statusId})
+    },
+    deleteBoard: async function (boardId) {
+        document.getElementById("root").innerHTML += `<p>.<p>`;
+        console.log("deleting " + boardId)
+        return apiDelete(`/api/boards/${boardId}/cards/`)
+    }
 };
 
 export async function apiGet(url) {

@@ -12,7 +12,7 @@ export let cardsManager = {
         for (let card of cards) {
             const cardBuilder = htmlFactory(htmlTemplates.card);
             const content = cardBuilder(card);
-            console.log(card.status_id, ' ',card.title)
+            // console.log(card.status_id, ' ',card.title)
             // domManager.addChild(`.board[data-board-id="${boardId}"]`, content);
             let parent;
             parent = `.board-column-content[status-id="${card.status_id}"]`
