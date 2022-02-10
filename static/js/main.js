@@ -352,6 +352,7 @@ async function cur_content() {
     if (cur_content !== initial_content) {
         await init()
     }
+ }
 
 await init();
 
