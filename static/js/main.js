@@ -25,6 +25,9 @@ function showRegisterMessageError(message){
      let buttonCancel =  document.getElementById('cancel-button');
      buttonCancel.addEventListener('click', cancelFunction);
 }
+function changeStatusTitle(status) {
+    apiPut("")
+}
 
 function updateUserButtons(){
     let buttonLogin = document.getElementById('button-login');
@@ -159,6 +162,18 @@ function logout(){
     apiDelete('/api/user', {}).then(r => {updateUserButtons()} );
 }
 
+function addEventForStatusTitleChange() {
+    let column_titles = document.getElementsByClassName("board-column-title");
+    for (let column_title of column_titles){
+        column_title.addEventListener('onchange',evt => {
+            changeStatusTitle({
+                "status_id": evt.currentTarget.getAttribute('status_id'),
+                "title": evt.currentTarget.innerText
+            })
+        })
+    }
+
+}
 
 
 //dragging
@@ -253,11 +268,14 @@ function init_buttons() {
 
 
 function init() {
-    boardsManager.loadBoards();
+    boardsManager.loadBoards().then(r => {});
     setTimeout(update_ui, 1000);
     init_buttons();
+    updateUserButtons();
 }
+
+
 init();
-updateUserButtons()
+
 
 
