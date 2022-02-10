@@ -58,7 +58,7 @@ def create_board(cursor):
 def create_card(cursor, board_id):
     query = """
         INSERT INTO cards(board_id, status_id, title, card_order)
-        VALUES (%(board_id)s, 1, 'New card', 1)
+        VALUES (%(board_id)s, (SELECT id FROM board_statuses WHERE board_id=%(board_id)s ORDER BY id LIMIT 1), 'New card', 1)
     ;"""
     cursor.execute(query, {'board_id': board_id})
 
@@ -67,8 +67,9 @@ def create_card(cursor, board_id):
 def update_card(cursor, card):
     query = """
         UPDATE cards
-        SET status_id=(SELECT id FROM statuses WHERE title=lower(%(status_title)s) LIMIT 1),
-        title = %(title)s
+        SET status_id = %(status_id)s,
+        title = %(title)s,
+        board_id = (SELECT board_id FROM board_statuses WHERE id=%(status_id)s LIMIT 1)
         WHERE id=%(card_id)s
             ;"""
     cursor.execute(query, card)
@@ -83,4 +84,13 @@ def insert_default_statuses_for_board(cursor):
     cursor.execute(query)
 
 
-
+@database_connection.connection_handler
+def get_statuses_by_board_id(cursor, board_id):
+    query = """
+        SELECT id, title
+        FROM board_statuses
+        WHERE board_id = %(board_id)s
+        ORDER BY id
+    ;"""
+    cursor.execute(query, {"board_id": board_id})
+    return cursor.fetchall()

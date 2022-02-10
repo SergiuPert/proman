@@ -70,11 +70,11 @@ def boards():
         return
 
 
-@app.route("/api/statuses", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route("/api/statuses/<int:board_id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 @json_response
-def statuses():
+def statuses(board_id: int):
     if request.method == 'GET':
-        statuses_var = ''
+        statuses_var = data_manager.get_statuses_by_board_id(board_id)
         return statuses_var
 
     if request.method == 'POST':

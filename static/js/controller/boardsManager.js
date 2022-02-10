@@ -6,22 +6,32 @@ import {cardsManager} from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
+        let divContent = ``;
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
+            const statuses= await dataHandler.getStatuses(board.id);
+            console.log('statuses ', statuses)
             const columnBuilder = htmlFactory(htmlTemplates.columns);
-            const content = boardBuilder(board);
-            console.log(boards)
+            const columns = columnBuilder(board, statuses)
+            const content = boardBuilder(board, columns);
+            // console.log(boards)
             console.log(board)
-            console.log(boardBuilder)
-            console.log(content)
+
+            // console.log(columnBuilder)
+            // console.log(columns)
+            // console.log(boardBuilder)
+            // console.log(content)
             domManager.addChild("#root", content);
+            // divContent+=content;
             // domManager.addEventListener(
             //     `.toggle-board-button[data-board-id="${board.id}"]`,
             //     "click",
             //     showHideButtonHandler
             // );
-            showHideButtonHandler(board.id)
+            await showHideButtonHandler(board.id)
         }
+        // console.log(divContent)
+        // return divContent;
     },
 };
 
@@ -31,6 +41,8 @@ export let boardsManager = {
 //     cardsManager.loadCards(boardId);
 // }
 
-function showHideButtonHandler(boardId) {
-    cardsManager.loadCards(boardId);
+async function showHideButtonHandler(boardId) {
+
+    await cardsManager.loadCards(boardId);
+
 }

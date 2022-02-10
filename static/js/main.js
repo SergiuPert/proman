@@ -70,7 +70,7 @@ async function loginFunction() {
         let divRoot = document.getElementById('root-over');
         divRoot.innerHTML = '';
         divRoot.style.visibility = 'hidden';
-        updateUserButtons();
+        init();
     } else if (message === 'Incorrect password') {
         let messageNode = `<h1 id="message" style="color: red"> ${message}</h1>`
         showLoginMessageError(messageNode)
@@ -156,7 +156,7 @@ function registration(){
 }
 
 function logout(){
-    apiDelete('/api/user', {}).then(r => {updateUserButtons()} );
+    apiDelete('/api/user', {}).then(r => {init()} );
 }
 
 
@@ -178,9 +178,11 @@ const game = {
 };
 
 function update_ui() {
+    console.log("se executa")
     ui.cards = document.querySelectorAll(".card");
     ui.slots = document.querySelectorAll(".board-column");
     initDragEvents();
+    console.log("executat")
 }
 
 function initDragEvents() {
@@ -232,7 +234,7 @@ function handleDrop(e) {
     if (dom.hasClass(dropzone, "board-column")) {
 
         apiPut('/api/cards', {
-            'status_title': dropzone.firstElementChild.innerText,
+            'status_id': dropzone.lastElementChild.getAttribute('status-id'),
             'title': game.dragged.lastElementChild.innerText,
             'card_id': game.dragged.getAttribute('data-card-id')
         }).then(e => {
@@ -254,12 +256,34 @@ function init_buttons() {
 }
 
 
-function init() {
-    boardsManager.loadBoards();
-    setTimeout(update_ui, 1000);
-    setTimeout(init_buttons, 1000);
+ async function init() {
+     document.getElementById('root').innerHTML = ''
+     await boardsManager.loadBoards();
+     update_ui()
+     init_buttons();
+     updateUserButtons();
+     // let rootDiv = document.getElementById('root');
+     // let current_content;
+     // boardsManager.loadBoards().then(result=>{
+     //     current_content = result;
+     //     if (rootDiv.innerHTML !== current_content) {
+     //     rootDiv.innerHTML = current_content;
+     //     setTimeout(update_ui, 1000);
+     //     setTimeout(init_buttons, 1000);
+     // }
+     // });
+     // setInterval()
+
+ }
+
+
+function cur_content() {
+    let cur_content = document.getElementById('root').innerHTML;
+    return cur_content;
 }
-init();
-updateUserButtons()
+
+await init();
+
+
 
 

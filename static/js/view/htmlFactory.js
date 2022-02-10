@@ -6,7 +6,8 @@ export const htmlTemplates = {
 
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
-    [htmlTemplates.card]: cardBuilder
+    [htmlTemplates.card]: cardBuilder,
+    [htmlTemplates.columns]: board_columns_builder
 };
 
 export function htmlFactory(template) {
@@ -15,8 +16,8 @@ export function htmlFactory(template) {
             return boardBuilder
         case htmlTemplates.card:
             return cardBuilder
-
-
+        case htmlTemplates.columns:
+            return board_columns_builder
     }
     console.error("Undefined template: " + template);
 
@@ -49,16 +50,17 @@ function cardBuilder(card) {
 }
 
 function board_columns_builder(board, statuses) {
-    let columns = ``;
-    for (let status in statuses) {
+    let columns = `<div class="board-columns">`;
+    for (let status of statuses) {
+        console.log('status id ',status.id)
         columns += `
-            <div className="board-columns">
-                <div className="board-column">
-                    <div className="board-column-title">New Status</div>
-                    <div className="board-column-content" status-new-id=${board.id}></div>
+                <div class="board-column">
+                    <div class="board-column-title" contenteditable="true">${status.title}</div>
+                    <div class="board-column-content" status-id=${status.id}></div>
                 </div>
-            </div>`;
+            `;
     }
+    columns += `</div>`
     return columns
 }
 
