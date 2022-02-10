@@ -65,3 +65,13 @@ def update_card(cursor, card):
     cursor.execute(query, card)
 
 
+@database_connection.connection_handler
+def insert_default_statuses_for_board(cursor):
+    query = """INSERT INTO board_statuses(title, board_id)
+    SELECT statuses.title,(SELECT id FROM boards ORDER BY id DESC LIMIT 1) as board_id
+    FROM statuses
+    ORDER BY statuses.id;"""
+    cursor.execute(query)
+
+
+
