@@ -5,8 +5,8 @@ export let dataHandler = {
     getBoard: async function (boardId) {
         // the board is retrieved and then the callback function is called with the board
     },
-    getStatuses: async function () {
-        // the statuses are retrieved and then the callback function is called with the statuses
+    getStatuses: async function (boardId) {
+
     },
     getStatus: async function (statusId) {
         // the status is retrieved and then the callback function is called with the status

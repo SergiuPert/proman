@@ -73,4 +73,3 @@ def update_card(cursor, card):
             ;"""
     cursor.execute(query, card)
 
-

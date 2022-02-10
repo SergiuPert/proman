@@ -1,6 +1,7 @@
 export const htmlTemplates = {
     board: 1,
-    card: 2
+    card: 2,
+    columns: 3
 }
 
 export const builderFunctions = {
@@ -25,7 +26,7 @@ export function htmlFactory(template) {
 }
 
 
-function boardBuilder(board) {
+function boardBuilder(board, columns) {
     return `
         <section class="board" data-board-id=${board.id}>
             <div class="board-header"><span class="board-title">${board.title}</span>
@@ -33,24 +34,7 @@ function boardBuilder(board) {
                 <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
 <!--                <button class="toggle-board-button" data-board-id="${board.id}${board.id}">Show Cards</button>-->
             </div>
-            <div class="board-columns">
-                <div class="board-column">
-                    <div class="board-column-title">New</div>
-                    <div class="board-column-content" status-new-id=${board.id}></div>
-                </div>
-                <div class="board-column" >
-                    <div class="board-column-title">In Progress</div>
-                    <div class="board-column-content" status-progress-id=${board.id}></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content" status-testing-id=${board.id}></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content" status-done-id=${board.id}></div>
-                </div>
-            </div>
+            ${columns}
         </section>
     `;
 }
@@ -63,3 +47,37 @@ function cardBuilder(card) {
             </div>
     `;
 }
+
+function board_columns_builder(board, statuses) {
+    let columns = ``;
+    for (let status in statuses) {
+        columns += `
+            <div className="board-columns">
+                <div className="board-column">
+                    <div className="board-column-title">New Status</div>
+                    <div className="board-column-content" status-new-id=${board.id}></div>
+                </div>
+            </div>`;
+    }
+    return columns
+}
+
+
+// <div className="board-columns">
+//     <div className="board-column">
+//         <div className="board-column-title">New</div>
+//         <div className="board-column-content" status-new-id=${board.id}></div>
+//     </div>
+//     <div className="board-column">
+//         <div className="board-column-title">In Progress</div>
+//         <div className="board-column-content" status-progress-id=${board.id}></div>
+//     </div>
+//     <div className="board-column">
+//         <div className="board-column-title">Testing</div>
+//         <div className="board-column-content" status-testing-id=${board.id}></div>
+//     </div>
+//     <div className="board-column">
+//         <div className="board-column-title">Done</div>
+//         <div className="board-column-content" status-done-id=${board.id}></div>
+//     </div>
+// </div>
