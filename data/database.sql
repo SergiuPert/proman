@@ -1,9 +1,16 @@
-drop table cards;
-drop table board_statuses;
-drop table statuses;
-drop table boards;
-drop table users;
+drop table if exists cards;
+drop table if exists board_statuses;
+drop table if exists statuses;
+drop table if exists boards;
+drop table if exists users;
 
+create table boards
+(
+	id serial
+		constraint boards_pkey
+			primary key,
+	title varchar(200) not null
+);
 
 
 create table board_statuses
@@ -17,13 +24,6 @@ create table board_statuses
 			references boards
 );
 
-create table boards
-(
-	id serial
-		constraint boards_pkey
-			primary key,
-	title varchar(200) not null
-);
 
 create table cards
 (
@@ -56,7 +56,10 @@ create table users
     password text
 );
 
-
+INSERT INTO public.boards (id, title) VALUES (default, 'Board 1');
+INSERT INTO public.boards (id, title) VALUES (default, 'Board 2');
+INSERT INTO public.boards (id, title) VALUES (default, 'New Board');
+INSERT INTO public.boards (id, title) VALUES (default, 'New Board');
 INSERT INTO public.board_statuses (id, title, board_id) VALUES (default, 'new', 4);
 INSERT INTO public.board_statuses (id, title, board_id) VALUES (default, 'in progress', 4);
 INSERT INTO public.board_statuses (id, title, board_id) VALUES (default, 'testing', 4);
@@ -73,11 +76,7 @@ INSERT INTO public.board_statuses (id, title, board_id) VALUES (default, 'testin
 INSERT INTO public.board_statuses (id, title, board_id) VALUES (default, 'in progress', 2);
 INSERT INTO public.board_statuses (id, title, board_id) VALUES (default, 'in progress', 1);
 INSERT INTO public.board_statuses (id, title, board_id) VALUES (default, 'new', 1);
-INSERT INTO public.boards (id, title) VALUES (default, 'Board 1');
-INSERT INTO public.boards (id, title) VALUES (default, 'Board 2');
-INSERT INTO public.boards (id, title) VALUES (default, 'New Board');
-INSERT INTO public.boards (id, title) VALUES (default, 'New Board');
-INSERT INTO public.cards (id, board_id, status_id, title, card_order) VALUES (default, 1, 'new card 2', 2);
+INSERT INTO public.cards (id, board_id, status_id, title, card_order) VALUES (default, 1,1, 'new card 2', 2);
 INSERT INTO public.cards (id, board_id, status_id, title, card_order) VALUES (default, 1, 4, 'done card 1', 1);
 INSERT INTO public.cards (id, board_id, status_id, title, card_order) VALUES (default, 1, 1, 'New card', 1);
 INSERT INTO public.cards (id, board_id, status_id, title, card_order) VALUES (default, 4, 12, 'New card', 1);
