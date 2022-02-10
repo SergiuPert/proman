@@ -79,14 +79,16 @@ def statuses(board_id: int):
         return statuses_var
 
     if request.method == 'POST':
-        return
+        data_manager.add_status(board_id)
 
     if request.method == 'PUT':
         json_var = request.json
         data_manager.update_status_name(json_var)
 
     if request.method == 'DELETE':
-        return
+        json_var = request.json
+        print(json_var)
+        data_manager.delete_status(json_var)
 
 
 @app.route("/api/cards", methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -122,6 +124,15 @@ def get_cards_for_board(board_id: int):
         return cards_var
     if request.method == 'POST':
         data_manager.create_card(board_id)
+    if request.method == 'DELETE':
+        data_manager.delete_board(board_id)
+
+
+@app.route("/api/cards/<int:card_id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
+@json_response
+def delete_card_by_id(card_id: int):
+    if request.method == 'DELETE':
+        data_manager.delete_card(card_id)
 
 
 def main():

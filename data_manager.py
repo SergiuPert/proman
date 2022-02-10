@@ -53,6 +53,7 @@ def create_board(cursor):
         VALUES ('New Board')
     ;"""
     cursor.execute(query)
+    insert_default_statuses_for_board()
 
 
 @database_connection.connection_handler
@@ -95,6 +96,49 @@ def get_statuses_by_board_id(cursor, board_id):
     ;"""
     cursor.execute(query, {"board_id": board_id})
     return cursor.fetchall()
+
+
+@database_connection.connection_handler
+def add_status(cursor, board_id):
+    query = """
+        INSERT INTO board_statuses(title, board_id) 
+        VALUES ('New Status', %(board_id)s)
+    ;"""
+    cursor.execute(query, {"board_id": board_id})
+
+
+@database_connection.connection_handler
+def delete_card(cursor, card_id):
+    query = """
+        DELETE FROM cards
+        WHERE id=%(card_id)s
+    ;"""
+    cursor.execute(query, {"card_id": card_id})
+
+
+@database_connection.connection_handler
+def delete_status(cursor, status):
+    print(status)
+    query = """
+        DELETE FROM cards 
+        WHERE status_id=%(status_id)s;
+        DELETE FROM board_statuses
+        WHERE id=%(status_id)s
+    ;"""
+    cursor.execute(query, status)
+
+
+@database_connection.connection_handler
+def delete_board(cursor, board_id):
+    query = """
+        DELETE FROM cards
+        WHERE board_id=%(board_id)s;
+        DELETE FROM board_statuses
+        WHERE board_id=%(board_id)s;
+        DELETE FROM boards
+        WHERE id=%(board_id)s
+    ;"""
+    cursor.execute(query, {"board_id": board_id})
 
 
 @database_connection.connection_handler

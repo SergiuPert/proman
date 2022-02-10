@@ -76,9 +76,9 @@ async function loginFunction() {
         'password': document.getElementById('password').value
     }).then(result => {
         message = result.attempt;
-        console.log(result)
+        // console.log(result)
     });
-    console.log(message);
+    // console.log(message);
     if (message === 'Connected') {
         let divRoot = document.getElementById('root-over');
         divRoot.innerHTML = '';
@@ -111,7 +111,7 @@ async function registerFunction(ev) {
                     'password': document.getElementById('password').value
                 }).then(result =>{
                     message = result.attempt;
-                    console.log(result)
+                    // console.log(result)
             });
             if(message === 'Success!'){
                  let registrationDiv = document.getElementById('registration-div');
@@ -287,12 +287,13 @@ function handleDrop(e) {
             'title': game.dragged.lastElementChild.innerText,
             'card_id': game.dragged.getAttribute('data-card-id')
         }).then(e => {
-            console.log(game.dragged, 'Card updated')
+            // console.log(game.dragged, 'Card updated')
         });
         dropzone.children[1].appendChild(game.dragged);
     }
 
 }
+
 
 function init_buttons() {
     let create_board_button = document.getElementById("create-board");
@@ -301,7 +302,25 @@ function init_buttons() {
     for (let button of create_card_buttons) {
         button.addEventListener("click", evt => dataHandler.createNewCard(button.id))
     }
+    let create_status_buttons = document.querySelectorAll(".board-add-status");
+    for (let button of create_status_buttons) {
+        button.addEventListener("click", evt => dataHandler.createNewStatus(button.id))
+    }
+    let delete_card_buttons = document.querySelectorAll(".card-remove");
+    for (let button of delete_card_buttons) {
+        button.addEventListener("click", evt => dataHandler.deleteCard(button.id))
+    }
+    let delete_status_buttons = document.querySelectorAll(".status-remove");
+    for (let button of delete_status_buttons) {
+        button.addEventListener("click", evt => dataHandler.deleteStatus(button.id))
+    }
+    let delete_board_buttons = document.querySelectorAll(".board-delete");
+    for (let button of delete_board_buttons) {
+        button.addEventListener("click", evt => dataHandler.deleteBoard(button.id))
+    }
 }
+
+let initial_content = "";
 
  async function init() {
      document.getElementById('root').innerHTML = ''
@@ -323,15 +342,21 @@ function init_buttons() {
      // }
      // });
      // setInterval()
+     initial_content = document.getElementById('root').innerText;
 
  }
 
-function cur_content() {
-    let cur_content = document.getElementById('root').innerHTML;
-    return cur_content;
-}
+
+async function cur_content() {
+    let cur_content = document.getElementById('root').innerText;
+    if (cur_content !== initial_content) {
+        await init()
+    }
 
 await init();
+
+setInterval(cur_content, 3000);
+
 
 
 
