@@ -175,7 +175,7 @@ function logout(){
 function addEventForStatusTitleChange() {
     let column_titles = document.getElementsByClassName("board-column-title");
     for (let column_title of column_titles){
-        column_title.addEventListener('keydown',evt => {
+        column_title.addEventListener('keyup',evt => {
             changeStatusTitle({
                 "status_id": evt.currentTarget.getAttribute('status-id'),
                 "title": evt.currentTarget.innerText
@@ -188,7 +188,7 @@ function addEventForStatusTitleChange() {
 function addEventForBoardTitleChange(){
     let boards_title = document.getElementsByClassName('board-title');
     for(let board_title of boards_title){
-        board_title.addEventListener('keydown', event =>{
+        board_title.addEventListener('keyup', event =>{
             changeBoardsTitle({
                 "board_id": event.currentTarget.getAttribute('board-id'),
                 "title": event.currentTarget.innerText
@@ -201,7 +201,7 @@ function addEventForCardTitleChange(){
     let cards_title = document.getElementsByClassName('card-title');
     for(let card_title of cards_title){
         console.log(card_title);
-        card_title.addEventListener('keydown', event =>{
+        card_title.addEventListener('keyup', event =>{
             console.log('update card started')
             changeCardsTitle({
                 "card_id": event.currentTarget.getAttribute('data-card-id'),
@@ -283,7 +283,7 @@ function handleDrop(e) {
     if (dom.hasClass(dropzone, "board-column")) {
 
         apiPut('/api/cards', {
-            'status_id': dropzone.lastElementChild.getAttribute('status-id'),
+            'status_id': dropzone.firstElementChild.getAttribute('status-id'),
             'title': game.dragged.lastElementChild.innerText,
             'card_id': game.dragged.getAttribute('data-card-id')
         }).then(e => {

@@ -103,6 +103,7 @@ def cards():
 
     if request.method == 'PUT':
         json_var = request.json
+        print(json_var)
         if "status_id" in json_var:
             data_manager.update_card(json_var)
         else:
